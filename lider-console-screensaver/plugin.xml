@@ -13,11 +13,6 @@
             id="tr.org.liderahenk.liderconsole.commands.ScreensaverProfile"            
             name="%command.profile">
       </command>
-      <command
-            categoryId="tr.org.liderahenk.liderconsole.commands.category"
-            id="tr.org.liderahenk.liderconsole.commands.ScreensaverTask"            
-            name="%command.task">
-      </command>
    </extension>
    
    <extension
@@ -45,30 +40,6 @@
 		       </and>
 		    </enabledWhen> -->        
       	</handler>
-      	
-      	<!-- Task handler -->
-       <handler
-            class="tr.org.liderahenk.screensaver.handlers.ScreensaverTaskHandler"
-            commandId="tr.org.liderahenk.liderconsole.commands.ScreensaverTask">
-           <!-- TODO Uncomment this after updating/fixing LiderSourceProvider -->
-		   <!-- <enabledWhen>
-				<and>
-		          <with
-		                variable="tr.org.liderahenk.liderconsole.core.sourceproviders.main.available">
-		             <equals
-		                   value="true">
-		             </equals>
-		          </with>
-				<with
-	                variable="tr.org.liderahenk.liderconsole.core.sourceproviders.main.isAhenkSelected">
-	             	<equals
-		                   value="true">
-		            </equals>
-	          	</with>
-		       </and>
-		    </enabledWhen> -->        
-      </handler>
-      
   </extension>
   
   <extension
@@ -81,44 +52,6 @@
                   commandId="tr.org.liderahenk.liderconsole.commands.ScreensaverProfile"
                   id="tr.org.liderahenk.liderconsole.commands.ScreensaverProfile"
                   tooltip="%command.profile">
-                  <!-- TODO Uncomment this after updating/fixing LiderSourceProvider -->
-				  <!-- <visibleWhen>
-					   <and>
-			                <iterate operator="or">		
-			                	<or>
-							  	<with
-					                variable="tr.org.liderahenk.liderconsole.core.sourceproviders.main.isSearchSelected">
-						             <equals
-						                   value="true">
-						             </equals>
-					          	</with>
-					          	<with
-					                variable="tr.org.liderahenk.liderconsole.core.sourceproviders.main.isEntrySelected">
-						             <equals
-						                   value="true">
-						             </equals>
-					          	</with>
-					        	</or>
-					        </iterate>
-							<with
-				                variable="tr.org.liderahenk.liderconsole.core.sourceproviders.main.isAhenkSelected">
-				             	<equals
-					                   value="true">
-					            </equals>
-				          	</with>
-					    </and>
-					</visibleWhen> -->               
-           		</command>
-		</menuContribution>
-      
-      	<!-- Add extension point contribution for "task execution" dialogs -->
-		<menuContribution
-      		allPopups="false"
-            locationURI="popup:tr.org.liderahenk.liderconsole.menus.ApplyTask?after=additions">
- 				<command
-                  commandId="tr.org.liderahenk.liderconsole.commands.ScreensaverTask"
-                  id="tr.org.liderahenk.liderconsole.commands.ScreensaverTask"
-                  tooltip="%command.task">
                   <!-- TODO Uncomment this after updating/fixing LiderSourceProvider -->
 				  <!-- <visibleWhen>
 					   <and>
