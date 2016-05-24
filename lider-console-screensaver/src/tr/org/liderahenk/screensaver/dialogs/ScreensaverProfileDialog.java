@@ -200,7 +200,6 @@ public class ScreensaverProfileDialog implements IProfileDialog {
 	    spnLockTime.setIncrement(1);
 	    spnLockTime.setMaximum(ScreensaverConstants.MAX_VALUE);
 	    spnLockTime.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
-	    spnLockTime.setEnabled(false);
 	    minute = (profile != null && profile.getProfileData() != null
 				? (String) profile.getProfileData().get(ScreensaverConstants.PARAMETERS.LOCK) : "0");
 	    spnLockTime.setSelection(Integer.parseInt(minute));
@@ -360,7 +359,10 @@ public class ScreensaverProfileDialog implements IProfileDialog {
 	    btnTextChoices[1].pack();
 	    
 	    txtText = new Text(group, SWT.BORDER);
-	    txtText.setEnabled(false);
+	    txtText.setEnabled(isSelected);
+	    String txt = (profile != null && profile.getProfileData() != null
+				? (String) profile.getProfileData().get(ScreensaverConstants.PARAMETERS.TXT_FOR_TEXT) : "");
+	    txtText.setText(txt);
 	    txtText.pack();
 
 	    btnTextChoices[2] = new Button(group, SWT.RADIO);
@@ -381,7 +383,10 @@ public class ScreensaverProfileDialog implements IProfileDialog {
 	    btnTextChoices[2].pack();
 	    
 	    txtURL = new Text(group, SWT.BORDER);
-	    txtURL.setEnabled(false);
+	    txtURL.setEnabled(isSelected);
+	    txt = (profile != null && profile.getProfileData() != null
+				? (String) profile.getProfileData().get(ScreensaverConstants.PARAMETERS.TXT_FOR_URL) : "");
+	    txtURL.setText(txt);
 	    txtURL.pack();
 	    
 	    tabItem.setControl(group);
@@ -459,7 +464,9 @@ public class ScreensaverProfileDialog implements IProfileDialog {
 		profileData.put(ScreensaverConstants.PARAMETERS.ENABLE_QUICK_POWER_OFF, btnCheckPowerOff.getSelection());
 		profileData.put(ScreensaverConstants.PARAMETERS.HOST_NAME_TIME, btnTextChoices[0].getSelection());
 		profileData.put(ScreensaverConstants.PARAMETERS.TEXT, btnTextChoices[1].getSelection());
+		profileData.put(ScreensaverConstants.PARAMETERS.TXT_FOR_TEXT, txtText.getText());
 		profileData.put(ScreensaverConstants.PARAMETERS.URL, btnTextChoices[2].getSelection());
+		profileData.put(ScreensaverConstants.PARAMETERS.TXT_FOR_URL, txtURL.getText());
 		profileData.put(ScreensaverConstants.PARAMETERS.FADE_TO_BLACK, btnCheckFadeToBlack.getSelection());
 		profileData.put(ScreensaverConstants.PARAMETERS.FADE_FROM_BLACK, btnCheckFadeFromBlack.getSelection());
 		profileData.put(ScreensaverConstants.PARAMETERS.FADE_TIME, spnFading.getText());
