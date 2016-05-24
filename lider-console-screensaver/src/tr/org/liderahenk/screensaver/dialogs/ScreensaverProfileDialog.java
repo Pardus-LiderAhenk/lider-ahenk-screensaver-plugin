@@ -471,7 +471,7 @@ public class ScreensaverProfileDialog implements IProfileDialog {
 	private void selectOption(Combo combo, Object value) {
 		if (value != null) {
 			for (int i = 0; i < modesArr.length; i++) {
-				if (Messages.getString(modesArr[i]).equalsIgnoreCase(value.toString())) {
+				if (modesArr[i].equalsIgnoreCase(value.toString())) {
 					combo.select(i);
 				}
 			}
