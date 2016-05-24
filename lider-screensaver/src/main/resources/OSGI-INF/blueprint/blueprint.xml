@@ -14,7 +14,8 @@
 	<!-- IPluginInfo implementation is used to register plugin -->
 	<service ref="pluginInfoImpl"
 		interface="tr.org.liderahenk.lider.core.api.plugin.IPluginInfo" />
-	<bean id="pluginInfoImpl" class="tr.org.liderahenk.screensaver.plugininfo.PluginInfoImpl"
+	<bean id="pluginInfoImpl" 
+		class="tr.org.liderahenk.screensaver.plugininfo.PluginInfoImpl"
 		init-method="refresh">
 		<!-- Plugin definition -->
 		<property name="pluginName" value="${plugin.name}" />
@@ -33,16 +34,4 @@
 		<property name="distroPath" value="${plugin.distro.path}" />
 	</bean>
 
-	<!-- ICommand implementation is used to process a task execution -->
-	<service ref="ScreensaverCommand" interface="tr.org.liderahenk.lider.core.api.plugin.ICommand" />
-	<bean id="ScreensaverCommand" class="tr.org.liderahenk.screensaver.commands.ScreensaverCommand">
-		<property name="resultFactory" ref="resultFactory" />
-		<property name="pluginInfo" ref="pluginInfoImpl" />
-		<property name="logService" ref="logService" />
-		<property name="pluginDbService" ref="pluginDbService" />
-	</bean>
-
-	<reference id="pluginDbService" interface="tr.org.liderahenk.lider.core.api.persistence.IPluginDbService" />
-	<reference id="logService" interface="tr.org.liderahenk.lider.core.api.log.IOperationLogService" />
-	<reference id="resultFactory" interface="tr.org.liderahenk.lider.core.api.service.ICommandResultFactory" />
 </blueprint>
