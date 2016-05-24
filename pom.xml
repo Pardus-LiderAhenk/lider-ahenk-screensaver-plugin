@@ -44,7 +44,6 @@
 
 	<modules>
 		<module>lider-screensaver</module>
-		<module>lider-screensaver-db</module>
 		<module>lider-screensaver-feature</module>
 		<module>lider-console-screensaver</module>
 		<module>ahenk-screensaver</module>
