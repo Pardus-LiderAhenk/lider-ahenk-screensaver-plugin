@@ -29,7 +29,7 @@ public class ScreensaverConstants {
 		public static final String LITERAL_TYPE = "literal";
 		public static final String TEXT = "textLiteral";
 		public static final String URL_TYPE = "url";
-		public static final String URL = "textUrl";
+		public static final String URL = "textURL";
 		public static final String FADE_TO_BLACK_WHEN_BLANKING = "fade";
 		public static final String FADE_FROM_BLACK_WHEN_UNBLANKING = "unfade";
 		public static final String FADE_DURATION = "fadeSeconds";

@@ -70,7 +70,8 @@ public class ScreensaverProfileDialog implements IProfileDialog {
 	private Text txtURL;
 	
 	// Combo values
-	private final String[] modesArr = new String[] { "DISABLE", "BLANK", "ONLY_ONE", "RANDOM", "SAME_RANDOM" };
+	private final String[] modeArr = new String[] { "OFF", "BLANK", "ONLY_ONE", "RANDOM", "RANDOM_SAME" };
+	private final String[] modeValueArr = new String[] { "off", "blank", "only_one", "random", "random_same" };
 	
 	
 	@Override
@@ -109,11 +110,11 @@ public class ScreensaverProfileDialog implements IProfileDialog {
 	    
 	    cmbDisplay = new Combo(group, SWT.BORDER | SWT.DROP_DOWN | SWT.READ_ONLY);
 	    cmbDisplay.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
-	    for (int i = 0; i < modesArr.length; i++) {
-			String i18n = Messages.getString(modesArr[i]);
+	    for (int i = 0; i < modeArr.length; i++) {
+			String i18n = Messages.getString(modeArr[i]);
 			if (i18n != null && !i18n.isEmpty()) {
 				cmbDisplay.add(i18n);
-				cmbDisplay.setData(i + "", modesArr[i]);
+				cmbDisplay.setData(i + "", modeValueArr[i]);
 			}
 		}
 	    cmbDisplay.addSelectionListener(new SelectionAdapter() {
@@ -483,8 +484,8 @@ public class ScreensaverProfileDialog implements IProfileDialog {
 	
 	private void selectOption(Combo combo, Object value) {
 		if (value != null) {
-			for (int i = 0; i < modesArr.length; i++) {
-				if (modesArr[i].equalsIgnoreCase(value.toString())) {
+			for (int i = 0; i < modeValueArr.length; i++) {
+				if (modeValueArr[i].equalsIgnoreCase(value.toString())) {
 					combo.select(i);
 				}
 			}
