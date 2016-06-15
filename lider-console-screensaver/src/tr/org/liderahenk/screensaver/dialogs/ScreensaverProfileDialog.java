@@ -106,7 +106,6 @@ public class ScreensaverProfileDialog implements IProfileDialog {
 
 		Label lblDisplayMode = new Label(group, SWT.NONE);
 		lblDisplayMode.setText(Messages.getString("DISPLAYING_MODE"));
-		lblDisplayMode.pack();
 
 		cmbDisplay = new Combo(group, SWT.BORDER | SWT.DROP_DOWN | SWT.READ_ONLY);
 		cmbDisplay.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
@@ -146,29 +145,24 @@ public class ScreensaverProfileDialog implements IProfileDialog {
 		});
 		selectOption(cmbDisplay, profile != null && profile.getProfileData() != null
 				? profile.getProfileData().get(ScreensaverConstants.PARAMETERS.MODES) : null);
-		cmbDisplay.pack();
 
 		lblScreen = new Label(group, SWT.NONE);
 		lblScreen.setText(Messages.getString("BLACK_SCREEN"));
-		lblScreen.pack();
 
 		spnScreenTime = new Spinner(group, SWT.BORDER);
-		spnScreenTime.setMinimum(ScreensaverConstants.MIN_VALUE);
+		spnScreenTime.setMinimum(ScreensaverConstants.MIN_VALUE + 1);
 		spnScreenTime.setIncrement(1);
 		spnScreenTime.setMaximum(ScreensaverConstants.MAX_VALUE);
 		spnScreenTime.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 		String minute = (profile != null && profile.getProfileData() != null
-				? (String) profile.getProfileData().get(ScreensaverConstants.PARAMETERS.BLANK_AFTER) : "0");
+				? (String) profile.getProfileData().get(ScreensaverConstants.PARAMETERS.BLANK_AFTER) : "10");
 		spnScreenTime.setSelection(Integer.parseInt(minute));
-		spnScreenTime.pack();
 
 		lblBlankMinute = new Label(group, SWT.NONE);
 		lblBlankMinute.setText(Messages.getString("MINUTE"));
-		lblBlankMinute.pack();
 
 		lblChange = new Label(group, SWT.NONE);
 		lblChange.setText(Messages.getString("CHANGE"));
-		lblChange.pack();
 
 		spnChangeTime = new Spinner(group, SWT.BORDER);
 		spnChangeTime.setMinimum(ScreensaverConstants.MIN_VALUE);
@@ -176,13 +170,11 @@ public class ScreensaverProfileDialog implements IProfileDialog {
 		spnChangeTime.setMaximum(ScreensaverConstants.MAX_VALUE);
 		spnChangeTime.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 		minute = (profile != null && profile.getProfileData() != null
-				? (String) profile.getProfileData().get(ScreensaverConstants.PARAMETERS.CYCLE_AFTER) : "0");
+				? (String) profile.getProfileData().get(ScreensaverConstants.PARAMETERS.CYCLE_AFTER) : "10");
 		spnChangeTime.setSelection(Integer.parseInt(minute));
-		spnChangeTime.pack();
 
 		lblCycleMinute = new Label(group, SWT.NONE);
 		lblCycleMinute.setText(Messages.getString("MINUTE"));
-		lblCycleMinute.pack();
 
 		btnCheckLock = new Button(group, SWT.CHECK);
 		btnCheckLock.setText(Messages.getString("LOCK"));
@@ -199,7 +191,6 @@ public class ScreensaverProfileDialog implements IProfileDialog {
 		boolean isSelected = (profile != null && profile.getProfileData() != null
 				? (boolean) profile.getProfileData().get(ScreensaverConstants.PARAMETERS.LOCK_SCREEN_AFTER) : false);
 		btnCheckLock.setSelection(isSelected);
-		btnCheckLock.pack();
 
 		spnLockTime = new Spinner(group, SWT.BORDER);
 		spnLockTime.setMinimum(ScreensaverConstants.MIN_VALUE);
@@ -211,11 +202,9 @@ public class ScreensaverProfileDialog implements IProfileDialog {
 				: "0");
 		spnLockTime.setSelection(Integer.parseInt(minute));
 		spnLockTime.setEnabled(isSelected);
-		spnLockTime.pack();
 
 		lblLockMinute = new Label(group, SWT.NONE);
 		lblLockMinute.setText(Messages.getString("MINUTE"));
-		lblLockMinute.pack();
 
 		tabItem.setControl(group);
 	}
@@ -234,14 +223,12 @@ public class ScreensaverProfileDialog implements IProfileDialog {
 		boolean isSelected = (profile != null && profile.getProfileData() != null
 				? (boolean) profile.getProfileData().get(ScreensaverConstants.PARAMETERS.GRAB_DESKTOP_IMAGE) : false);
 		btnCheckGrabImage.setSelection(isSelected);
-		btnCheckGrabImage.pack();
 
 		btnCheckGrabVideo = new Button(group, SWT.CHECK);
 		btnCheckGrabVideo.setText(Messages.getString("GRAB_VIDEO"));
 		isSelected = (profile != null && profile.getProfileData() != null
 				? (boolean) profile.getProfileData().get(ScreensaverConstants.PARAMETERS.GRAB_VIDEO_FRAMES) : false);
 		btnCheckGrabVideo.setSelection(isSelected);
-		btnCheckGrabVideo.pack();
 
 		tabItem.setControl(group);
 	}
@@ -253,78 +240,93 @@ public class ScreensaverProfileDialog implements IProfileDialog {
 
 		Group group = new Group(tabFolder, SWT.NONE);
 		group.setLayout(new GridLayout(3, false));
-		group.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false, 5, 3));
+		group.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
+		Label lblPowerMan = new Label(group, SWT.NONE);
+		lblPowerMan.setText(Messages.getString("ENABLE_POWER_MANAGEMENT"));
 		btnCheckPowerManagement = new Button(group, SWT.CHECK);
-		btnCheckPowerManagement.setText(Messages.getString("ENABLE_POWER_MANAGEMENT"));
-		btnCheckPowerManagement.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false, 3, 1));
 		boolean isSelected = (profile != null && profile.getProfileData() != null
 				? (boolean) profile.getProfileData().get(ScreensaverConstants.PARAMETERS.POWER_MANAGEMENT_ENABLED)
 				: false);
 		btnCheckPowerManagement.setSelection(isSelected);
-		btnCheckPowerManagement.pack();
+		btnCheckPowerManagement.addSelectionListener(new SelectionListener() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				spnStandby.setEnabled(btnCheckPowerManagement.getSelection());
+				spnSuspend.setEnabled(btnCheckPowerManagement.getSelection());
+				spnOff.setEnabled(btnCheckPowerManagement.getSelection());
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
+		new Label(group, SWT.NONE);
 
 		Label lblStandby = new Label(group, SWT.NONE);
 		lblStandby.setText(Messages.getString("STANDBY"));
-		lblStandby.pack();
 
 		spnStandby = new Spinner(group, SWT.BORDER);
 		spnStandby.setMinimum(ScreensaverConstants.MIN_VALUE);
 		spnStandby.setIncrement(1);
-		spnStandby.setMaximum(ScreensaverConstants.MAX_VALUE);
-		spnStandby.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
-		String minute = (profile != null && profile.getProfileData() != null
-				? (String) profile.getProfileData().get(ScreensaverConstants.PARAMETERS.STANDBY_AFTER) : "0");
-		spnStandby.setSelection(Integer.parseInt(minute));
-		spnStandby.pack();
+		spnStandby.setMaximum(ScreensaverConstants.LIMITS.MAX_STAND_VALUE);
+		if (profile != null && profile.getProfileData() != null
+				&& profile.getProfileData().get(ScreensaverConstants.PARAMETERS.STANDBY_AFTER) != null) {
+			spnStandby.setSelection(Integer
+					.parseInt((String) profile.getProfileData().get(ScreensaverConstants.PARAMETERS.STANDBY_AFTER)));
+		} else {
+			spnStandby.setEnabled(false);
+			spnStandby.setSelection(ScreensaverConstants.LIMITS.DEFAULT_STAND_VALUE);
+		}
 
 		Label lblStandbyMinute = new Label(group, SWT.NONE);
 		lblStandbyMinute.setText(Messages.getString("MINUTE"));
-		lblStandbyMinute.pack();
 
 		Label lblSuspend = new Label(group, SWT.NONE);
 		lblSuspend.setText(Messages.getString("SUSPEND"));
-		lblSuspend.pack();
 
 		spnSuspend = new Spinner(group, SWT.BORDER);
 		spnSuspend.setMinimum(ScreensaverConstants.MIN_VALUE);
 		spnSuspend.setIncrement(1);
-		spnSuspend.setMaximum(ScreensaverConstants.MAX_VALUE);
-		spnSuspend.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
-		minute = (profile != null && profile.getProfileData() != null
-				? (String) profile.getProfileData().get(ScreensaverConstants.PARAMETERS.SUSPEND_AFTER) : "0");
-		spnSuspend.setSelection(Integer.parseInt(minute));
-		spnSuspend.pack();
+		spnSuspend.setMaximum(ScreensaverConstants.LIMITS.MAX_STAND_VALUE);
+		if (profile != null && profile.getProfileData() != null
+				&& profile.getProfileData().get(ScreensaverConstants.PARAMETERS.SUSPEND_AFTER) != null) {
+			spnSuspend.setSelection(Integer
+					.parseInt((String) profile.getProfileData().get(ScreensaverConstants.PARAMETERS.SUSPEND_AFTER)));
+		} else {
+			spnSuspend.setEnabled(false);
+			spnSuspend.setSelection(ScreensaverConstants.LIMITS.DEFAULT_STAND_VALUE);
+		}
 
 		Label lblSuspendMinute = new Label(group, SWT.NONE);
 		lblSuspendMinute.setText(Messages.getString("MINUTE"));
-		lblSuspendMinute.pack();
 
 		Label lblOff = new Label(group, SWT.NONE);
 		lblOff.setText(Messages.getString("OFF"));
-		lblOff.pack();
 
 		spnOff = new Spinner(group, SWT.BORDER);
 		spnOff.setMinimum(ScreensaverConstants.MIN_VALUE);
 		spnOff.setIncrement(1);
-		spnOff.setMaximum(ScreensaverConstants.MAX_VALUE);
-		spnOff.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
-		minute = (profile != null && profile.getProfileData() != null
-				? (String) profile.getProfileData().get(ScreensaverConstants.PARAMETERS.OFF_AFTER) : "0");
-		spnOff.setSelection(Integer.parseInt(minute));
-		spnOff.pack();
+		spnOff.setMaximum(ScreensaverConstants.LIMITS.MAX_STAND_VALUE);
+		if (profile != null && profile.getProfileData() != null
+				&& profile.getProfileData().get(ScreensaverConstants.PARAMETERS.OFF_AFTER) != null) {
+			spnOff.setSelection(
+					Integer.parseInt((String) profile.getProfileData().get(ScreensaverConstants.PARAMETERS.OFF_AFTER)));
+		} else {
+			spnOff.setEnabled(false);
+			spnOff.setSelection(ScreensaverConstants.LIMITS.DEFAULT_STAND_OFF_VALUE);
+		}
 
 		Label lblOffMinute = new Label(group, SWT.NONE);
 		lblOffMinute.setText(Messages.getString("MINUTE"));
-		lblOffMinute.pack();
 
+		Label lblPowerOff = new Label(group, SWT.NONE);
+		lblPowerOff.setText(Messages.getString("ENABLE_QUICK_POWER_OFF"));
 		btnCheckPowerOff = new Button(group, SWT.CHECK);
-		btnCheckPowerOff.setText(Messages.getString("ENABLE_QUICK_POWER_OFF"));
-		btnCheckPowerOff.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false, 3, 1));
 		isSelected = (profile != null && profile.getProfileData() != null ? (boolean) profile.getProfileData()
 				.get(ScreensaverConstants.PARAMETERS.QUICK_POWER_OFF_IN_BLACK_ONLY_MODE) : false);
 		btnCheckPowerOff.setSelection(isSelected);
-		btnCheckPowerOff.pack();
+		new Label(group, SWT.NONE);
 
 		tabItem.setControl(group);
 	}
@@ -336,19 +338,17 @@ public class ScreensaverProfileDialog implements IProfileDialog {
 
 		Group group = new Group(tabFolder, SWT.NONE);
 		group.setLayout(new GridLayout(2, false));
-		group.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false, 2, 3));
+		group.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		btnTextChoices = new Button[3];
 
 		btnTextChoices[0] = new Button(group, SWT.RADIO);
 		btnTextChoices[0].setSelection(true);
 		btnTextChoices[0].setText(Messages.getString("HOST_NAME"));
-		btnTextChoices[0].setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false, 2, 1));
-		boolean isSelected = (profile != null && profile.getProfileData() != null
-				? (boolean) profile.getProfileData().get(ScreensaverConstants.PARAMETERS.HOST_NAME_AND_TIME_TYPE)
-				: false);
-		btnTextChoices[0].setSelection(isSelected);
-		btnTextChoices[0].pack();
+		btnTextChoices[0].setSelection(profile != null && profile.getProfileData() != null
+				&& ScreensaverConstants.PARAMETERS.HOST_NAME_AND_TIME_TYPE
+						.equals(profile.getProfileData().get(ScreensaverConstants.PARAMETERS.TEXT_MODE)));
+		new Label(group, SWT.NONE);
 
 		btnTextChoices[1] = new Button(group, SWT.RADIO);
 		btnTextChoices[1].setText(Messages.getString("TEXT"));
@@ -362,17 +362,15 @@ public class ScreensaverProfileDialog implements IProfileDialog {
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 		});
-		isSelected = (profile != null && profile.getProfileData() != null
-				? (boolean) profile.getProfileData().get(ScreensaverConstants.PARAMETERS.LITERAL_TYPE) : false);
-		btnTextChoices[1].setSelection(isSelected);
-		btnTextChoices[1].pack();
+		btnTextChoices[1].setSelection(
+				profile != null && profile.getProfileData() != null && ScreensaverConstants.PARAMETERS.LITERAL_TYPE
+						.equals(profile.getProfileData().get(ScreensaverConstants.PARAMETERS.TEXT_MODE)));
 
 		txtText = new Text(group, SWT.BORDER);
-		txtText.setEnabled(isSelected);
+		txtText.setEnabled(btnTextChoices[1].getSelection());
 		String txt = (profile != null && profile.getProfileData() != null
 				? (String) profile.getProfileData().get(ScreensaverConstants.PARAMETERS.TEXT) : "");
 		txtText.setText(txt);
-		txtText.pack();
 
 		btnTextChoices[2] = new Button(group, SWT.RADIO);
 		btnTextChoices[2].setText(Messages.getString("URL"));
@@ -386,20 +384,17 @@ public class ScreensaverProfileDialog implements IProfileDialog {
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 		});
-		isSelected = (profile != null && profile.getProfileData() != null
-				? (boolean) profile.getProfileData().get(ScreensaverConstants.PARAMETERS.URL_TYPE) : false);
-		btnTextChoices[2].setSelection(isSelected);
-		btnTextChoices[2].pack();
+		btnTextChoices[2].setSelection(
+				profile != null && profile.getProfileData() != null && ScreensaverConstants.PARAMETERS.URL_TYPE
+						.equals(profile.getProfileData().get(ScreensaverConstants.PARAMETERS.TEXT_MODE)));
 
 		txtURL = new Text(group, SWT.BORDER);
-		txtURL.setEnabled(isSelected);
+		txtURL.setEnabled(btnTextChoices[2].getSelection());
 		txt = (profile != null && profile.getProfileData() != null
 				? (String) profile.getProfileData().get(ScreensaverConstants.PARAMETERS.URL) : "");
 		txtURL.setText(txt);
-		txtURL.pack();
 
 		tabItem.setControl(group);
-
 	}
 
 	public void createFadingTab(Profile profile) {
@@ -409,49 +404,73 @@ public class ScreensaverProfileDialog implements IProfileDialog {
 
 		Group group = new Group(tabFolder, SWT.NONE);
 		group.setLayout(new GridLayout(3, false));
-		group.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false, 3, 4));
+		group.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, true));
 
+		Label lblFadeBlack = new Label(group, SWT.NONE);
+		lblFadeBlack.setText(Messages.getString("FADE_TO_BLACK"));
 		btnCheckFadeToBlack = new Button(group, SWT.CHECK);
-		btnCheckFadeToBlack.setText(Messages.getString("FADE_TO_BLACK"));
-		btnCheckFadeToBlack.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false, 3, 1));
 		boolean isSelected = (profile != null && profile.getProfileData() != null
 				? (boolean) profile.getProfileData().get(ScreensaverConstants.PARAMETERS.FADE_TO_BLACK_WHEN_BLANKING)
-				: false);
+				: true);
 		btnCheckFadeToBlack.setSelection(isSelected);
-		btnCheckFadeToBlack.pack();
+		btnCheckFadeToBlack.addSelectionListener(new SelectionListener() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (btnCheckFadeFromBlack.getSelection() || btnCheckFadeToBlack.getSelection()) {
+					spnFading.setEnabled(true);
+				} else if (!btnCheckFadeFromBlack.getSelection() && !btnCheckFadeToBlack.getSelection()) {
+					spnFading.setEnabled(false);
+				}
+			}
 
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
+		new Label(group, SWT.NONE);
+
+		Label lblFadeFromBlack = new Label(group, SWT.NONE);
+		lblFadeFromBlack.setText(Messages.getString("FADE_FROM_BLACK"));
 		btnCheckFadeFromBlack = new Button(group, SWT.CHECK);
-		btnCheckFadeFromBlack.setText(Messages.getString("FADE_FROM_BLACK"));
-		btnCheckFadeFromBlack.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false, 3, 1));
 		isSelected = (profile != null && profile.getProfileData() != null ? (boolean) profile.getProfileData()
 				.get(ScreensaverConstants.PARAMETERS.FADE_FROM_BLACK_WHEN_UNBLANKING) : false);
 		btnCheckFadeFromBlack.setSelection(isSelected);
-		btnCheckFadeFromBlack.pack();
+		btnCheckFadeFromBlack.addSelectionListener(new SelectionListener() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (btnCheckFadeFromBlack.getSelection() || btnCheckFadeToBlack.getSelection()) {
+					spnFading.setEnabled(true);
+				} else if (!btnCheckFadeFromBlack.getSelection() && !btnCheckFadeToBlack.getSelection()) {
+					spnFading.setEnabled(false);
+				}
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
+		new Label(group, SWT.NONE);
 
 		Label lblTime = new Label(group, SWT.NONE);
 		lblTime.setText(Messages.getString("FADING_TIME"));
-		lblTime.pack();
 
 		spnFading = new Spinner(group, SWT.BORDER);
 		spnFading.setMinimum(ScreensaverConstants.MIN_VALUE);
 		spnFading.setIncrement(1);
 		spnFading.setMaximum(ScreensaverConstants.FADING_MAX_VALUE);
-		spnFading.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 		String minute = (profile != null && profile.getProfileData() != null
-				? (String) profile.getProfileData().get(ScreensaverConstants.PARAMETERS.FADE_DURATION) : "0");
+				? (String) profile.getProfileData().get(ScreensaverConstants.PARAMETERS.FADE_DURATION) : "3");
 		spnFading.setSelection(Integer.parseInt(minute));
-		spnFading.pack();
 
 		Label lblSeconds = new Label(group, SWT.NONE);
 		lblSeconds.setText(Messages.getString("SECONDS"));
-		lblSeconds.pack();
 
+		Label lblColormap = new Label(group, SWT.NONE);
+		lblColormap.setText(Messages.getString("INSTALL_COLORMAP"));
 		btnCheckInstallColormap = new Button(group, SWT.CHECK);
-		btnCheckInstallColormap.setText(Messages.getString("INSTALL_COLORMAP"));
 		isSelected = (profile != null && profile.getProfileData() != null
 				? (boolean) profile.getProfileData().get(ScreensaverConstants.PARAMETERS.INSTALL_COLORMAP) : false);
 		btnCheckInstallColormap.setSelection(isSelected);
-		btnCheckInstallColormap.pack();
 
 		tabItem.setControl(group);
 	}
@@ -474,10 +493,11 @@ public class ScreensaverProfileDialog implements IProfileDialog {
 		profileData.put(ScreensaverConstants.PARAMETERS.OFF_AFTER, spnOff.getText());
 		profileData.put(ScreensaverConstants.PARAMETERS.QUICK_POWER_OFF_IN_BLACK_ONLY_MODE,
 				btnCheckPowerOff.getSelection());
-		profileData.put(ScreensaverConstants.PARAMETERS.HOST_NAME_AND_TIME_TYPE, btnTextChoices[0].getSelection());
-		profileData.put(ScreensaverConstants.PARAMETERS.LITERAL_TYPE, btnTextChoices[1].getSelection());
+		profileData.put(ScreensaverConstants.PARAMETERS.TEXT_MODE,
+				btnTextChoices[0].getSelection() ? ScreensaverConstants.PARAMETERS.HOST_NAME_AND_TIME_TYPE
+						: (btnTextChoices[1].getSelection() ? ScreensaverConstants.PARAMETERS.LITERAL_TYPE
+								: ScreensaverConstants.PARAMETERS.URL_TYPE));
 		profileData.put(ScreensaverConstants.PARAMETERS.TEXT, txtText.getText());
-		profileData.put(ScreensaverConstants.PARAMETERS.URL_TYPE, btnTextChoices[2].getSelection());
 		profileData.put(ScreensaverConstants.PARAMETERS.URL, txtURL.getText());
 		profileData.put(ScreensaverConstants.PARAMETERS.FADE_TO_BLACK_WHEN_BLANKING,
 				btnCheckFadeToBlack.getSelection());

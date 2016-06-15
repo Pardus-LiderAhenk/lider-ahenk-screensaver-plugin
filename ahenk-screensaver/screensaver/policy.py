@@ -12,6 +12,7 @@ class Screensaver(AbstractPlugin):
         self.data = data
         self.context = context
         self.logger = self.get_logger()
+        self.message_code = self.get_message_code()
 
         self.context.put('message_type', 'qwe')
         self.context.put('message_code', 'qwe')
@@ -25,49 +26,50 @@ class Screensaver(AbstractPlugin):
         try:
             if username is not None:
                 xfile_path = '/home/' + str(username) + '/.xscreensaver'
-                xscreensaver_file = open(xfile_path, 'w')
+                xscreensaver_file = open(xfile_path, 'w+')
 
                 data = json.loads(self.data)
 
-                content = 'mode: ' + str(data['mode']) + '\n' \
-                            'timeout: ' + str(data['timeout']) + '\n' \
-                            'cycle: ' + str(data['cycle']) + '\n' \
-                            'lock: ' + str(data['lock']) + '\n' \
-                            'lockTimeout: ' + str(data['lockTimeout']) + '\n' \
-                            'grabDesktopImages: ' + str(data['grabDesktopImages']) + '\n' \
-                            'grabVideoFrames: ' + str(data['grabVideoFrames']) + '\n' \
-                            'dpmsEnabled: ' + str(data['dpmsEnabled']) + '\n' \
-                            'dpmsStandby: ' + str(data['dpmsStandby']) + '\n' \
-                            'dpmsSuspend: ' + str(data['dpmsSuspend']) + '\n' \
-                            'dpmsOff: ' + str(data['dpmsOff']) + '\n' \
-                            'dpmsQuickOff: ' + str(data['dpmsQuickOff']) + '\n' \
-                            'date: ' + str(data['date']) + '\n' \
-                            'literal: ' + str(data['literal']) + '\n' \
-                            'textLiteral: ' + str(data['textLiteral']) + '\n' \
-                            'url: ' + str(data['url']) + '\n' \
-                            'textUrl: ' + str(data['textUrl']) + '\n' \
-                            'fade: ' + str(data['fade']) + '\n' \
-                            'unfade: ' + str(data['unfade']) + '\n' \
-                            'fadeSeconds: ' + str(data['fadeSeconds']) + '\n' \
-                            'installColormap: ' + str(data['installColormap']) + '\n'
-                
-                xscreensaver_file.write(content)
+                xscreensaver_file.write('mode: ' + str(data['mode']) + '\n')
+                xscreensaver_file.write('timeout: ' + str(data['timeout']) + '\n')
+                xscreensaver_file.write('cycle: ' + str(data['cycle']) + '\n')
+                xscreensaver_file.write('lock: ' + str(data['lock']) + '\n')
+                xscreensaver_file.write('lockTimeout: ' + str(data['lockTimeout']) + '\n')
+                xscreensaver_file.write('grabDesktopImages: ' + str(data['grabDesktopImages']) + '\n')
+                xscreensaver_file.write('grabVideoFrames: ' + str(data['grabVideoFrames']) + '\n')
+                xscreensaver_file.write('dpmsEnabled: ' + str(data['dpmsEnabled']) + '\n')
+                xscreensaver_file.write('dpmsStandby: ' + str(data['dpmsStandby']) + '\n')
+                xscreensaver_file.write('dpmsSuspend: ' + str(data['dpmsSuspend']) + '\n')
+                xscreensaver_file.write('dpmsOff: ' + str(data['dpmsOff']) + '\n')
+                xscreensaver_file.write('dpmsQuickOff: ' + str(data['dpmsQuickOff']) + '\n')
+                xscreensaver_file.write('textMode: ' + str(data['textMode']) + '\n')
+                xscreensaver_file.write('textLiteral: ' + str(data['textLiteral']) + '\n')
+                xscreensaver_file.write('textUrl: ' + str(data['textURL']) + '\n')
+                xscreensaver_file.write('fade: ' + str(data['fade']) + '\n')
+                xscreensaver_file.write('unfade: ' + str(data['unfade']) + '\n')
+                xscreensaver_file.write('fadeSeconds: ' + str(data['fadeSeconds']) + '\n')
+                xscreensaver_file.write('installColormap: ' + str(data['installColormap']) + '\n')
+
                 xscreensaver_file.close()
 
-                self.logger.debug('[Screensaver] Creating response.')
-                self.context.create_response(code=self.get_message_code().POLICY_PROCESSED.value,
-                                             message='Screensaver policy executed successfully')
+                change_owner = 'chown ' + username + ':' + username + ' ' + xfile_path
+                self.execute(change_owner)
+                self.logger.info('[Screensaver] .xscreensaver owner is changed.')
+
                 self.logger.info('[Screensaver] Screensaver profile is handled successfully.')
+                self.context.create_response(code=self.message_code.POLICY_PROCESSED.value,
+                                             message='User screensaver profile processed successfully.')
 
             else:
-                raise Exception('There is no username.')
+                self.context.create_response(code=self.message_code.POLICY_ERROR.value,
+                                         message='Screensaver profile is only user oriented.')
 
         except Exception as e:
-            self.logger.error('[Screensaver] A problem occurred while handling Screensaver policy. Error Message: {}'.format(str(e)))
-            self.context.create_response(code=self.get_message_code().POLICY_ERROR.value,
-                                         message='A problem occurred while handling Screensaver policy')
+            self.logger.error('[Screensaver] A problem occured while handling screensaver profile: {0}'.format(str(e)))
+            self.context.create_response(code=self.message_code.POLICY_ERROR.value, message='A problem occured while handling screensaver profile: {0}'.format(str(e)))
 
 
 def handle_policy(profile_data, context):
+    print('SCREENSAVER')
     screensaver = Screensaver(profile_data, context)
     screensaver.handle_policy()
