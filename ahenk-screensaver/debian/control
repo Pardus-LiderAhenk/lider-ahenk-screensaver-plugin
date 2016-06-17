@@ -3,12 +3,12 @@ Section: unknown
 Priority: optional
 Maintainer: TUBITAK ULAKBIM
 Build-Depends: debhelper (>= 9)
-Standards-Version: 3.9.5
+Standards-Version: 3.9.6
 Homepage: http://www.liderahenk.org.tr
 
-Package: screensaver
+Package: ahenk-screensaver
 Version: 1.0.0
 Architecture: any
 Depends: python3 (>= 3), xscreensaver, xscreensaver-gl
-Description: LiderAhenk ahenk-screensaver application
- Long Desc
+Description: Lider Ahenk screensaver plugin
+
