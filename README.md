@@ -1,6 +1,6 @@
 # lider-ahenk-screensaver-plugin
 
-screensaver plugin for [Lider Ahenk project](http://www.liderahenk.org.tr).
+Screensaver plugin for [Lider Ahenk project](http://www.liderahenk.org.tr).
 
 |                   | **user-oriented** | **machine-oriented** |
 |:-----------------:|:-----------------:|:--------------------:|
