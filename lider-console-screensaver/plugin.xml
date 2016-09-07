@@ -22,23 +22,6 @@
        	<handler
             class="tr.org.liderahenk.screensaver.handlers.ScreensaverProfileHandler"
             commandId="tr.org.liderahenk.liderconsole.commands.ScreensaverProfile">
-           <!-- TODO Uncomment this after updating/fixing LiderSourceProvider -->
-		   <!-- <enabledWhen>
-				<and>
-		          <with
-		                variable="tr.org.liderahenk.liderconsole.core.sourceproviders.main.available">
-		             <equals
-		                   value="true">
-		             </equals>
-		          </with>
-				<with
-	                variable="tr.org.liderahenk.liderconsole.core.sourceproviders.main.isAhenkSelected">
-	             	<equals
-		                   value="true">
-		            </equals>
-	          	</with>
-		       </and>
-		    </enabledWhen> -->        
       	</handler>
   </extension>
   
@@ -53,33 +36,6 @@
                   id="tr.org.liderahenk.liderconsole.commands.ScreensaverProfile"
                   tooltip="%command.profile"
                   icon="icons/16/screensaver.png">
-                  <!-- TODO Uncomment this after updating/fixing LiderSourceProvider -->
-				  <!-- <visibleWhen>
-					   <and>
-			                <iterate operator="or">		
-			                	<or>
-							  	<with
-					                variable="tr.org.liderahenk.liderconsole.core.sourceproviders.main.isSearchSelected">
-						             <equals
-						                   value="true">
-						             </equals>
-					          	</with>
-					          	<with
-					                variable="tr.org.liderahenk.liderconsole.core.sourceproviders.main.isEntrySelected">
-						             <equals
-						                   value="true">
-						             </equals>
-					          	</with>
-					        	</or>
-					        </iterate>
-							<with
-				                variable="tr.org.liderahenk.liderconsole.core.sourceproviders.main.isAhenkSelected">
-				             	<equals
-					                   value="true">
-					            </equals>
-				          	</with>
-					    </and>
-					</visibleWhen> -->               
            		</command>
 		</menuContribution>
   </extension>
@@ -88,6 +44,12 @@
 	<extension
   		point="tr.org.liderahenk.liderconsole.core.policymenu">
   		<policyItem label="%command.profile" pluginName="screensaver" pluginVersion="1.0.0" profileCommandId="tr.org.liderahenk.liderconsole.commands.ScreensaverProfile" />
+  	</extension>
+  	
+	<!-- Add extension point contribution for i18n messages -->
+	<extension
+  		point="tr.org.liderahenk.liderconsole.core.i18n">
+		<plugin name="screensaver" label="%plugin.label" />
   	</extension>
   	
 </plugin>
