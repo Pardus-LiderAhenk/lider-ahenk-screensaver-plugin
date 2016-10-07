@@ -6,6 +6,7 @@ import json
 
 from base.plugin.abstract_plugin import AbstractPlugin
 
+
 class Screensaver(AbstractPlugin):
     def __init__(self, data, context):
         super(Screensaver, self).__init__()
@@ -31,46 +32,54 @@ class Screensaver(AbstractPlugin):
                 data = json.loads(self.data)
 
                 content = 'mode: ' + str(data['mode']) + '\n' \
-                           'timeout: ' + str(data['timeout']) + '\n' \
-                           'cycle: ' + str(data['cycle']) + '\n' \
-                           'lock: ' + str(data['lock']) + '\n' \
-                           'lockTimeout: ' + str(data['lockTimeout']) + '\n' \
-                           'grabDesktopImages: ' + str(data['grabDesktopImages']) + '\n' \
-                           'grabVideoFrames: ' + str(data['grabVideoFrames']) + '\n' \
-                           'dpmsEnabled: ' + str(data['dpmsEnabled']) + '\n' \
-                           'dpmsStandby: ' + str(data['dpmsStandby']) + '\n' \
-                           'dpmsSuspend: ' + str(data['dpmsSuspend']) + '\n' \
-                           'dpmsOff: ' + str(data['dpmsOff']) + '\n' \
-                           'dpmsQuickOff: ' + str(data['dpmsQuickOff']) + '\n' \
-                           'textMode: ' + str(data['textMode']) + '\n' \
-                           'textLiteral: ' + str(data['textLiteral']) + '\n' \
-                           'textUrl: ' + str(data['textUrl']) + '\n' \
-                           'fade: ' + str(data['fade']) + '\n' \
-                           'unfade: ' + str(data['unfade']) + '\n' \
-                           'fadeSeconds: ' + str(data['fadeSeconds']) + '\n' \
-                           'installColormap: ' + str(data['installColormap']) + '\n'
+                                                         'timeout: ' + str(data['timeout']) + '\n' \
+                                                                                              'cycle: ' + str(
+                    data['cycle']) + '\n' \
+                                     'lock: ' + str(data['lock']) + '\n' \
+                                                                    'lockTimeout: ' + str(data['lockTimeout']) + '\n' \
+                                                                                                                 'grabDesktopImages: ' + str(
+                    data['grabDesktopImages']) + '\n' \
+                                                 'grabVideoFrames: ' + str(data['grabVideoFrames']) + '\n' \
+                                                                                                      'dpmsEnabled: ' + str(
+                    data['dpmsEnabled']) + '\n' \
+                                           'dpmsStandby: ' + str(data['dpmsStandby']) + '\n' \
+                                                                                        'dpmsSuspend: ' + str(
+                    data['dpmsSuspend']) + '\n' \
+                                           'dpmsOff: ' + str(data['dpmsOff']) + '\n' \
+                                                                                'dpmsQuickOff: ' + str(
+                    data['dpmsQuickOff']) + '\n' \
+                                            'textMode: ' + str(data['textMode']) + '\n' \
+                                                                                   'textLiteral: ' + str(
+                    data['textLiteral']) + '\n' \
+                                           'textUrl: ' + str(data['textUrl']) + '\n' \
+                                                                                'fade: ' + str(data['fade']) + '\n' \
+                                                                                                               'unfade: ' + str(
+                    data['unfade']) + '\n' \
+                                      'fadeSeconds: ' + str(data['fadeSeconds']) + '\n' \
+                                                                                   'installColormap: ' + str(
+                    data['installColormap']) + '\n'
 
                 xscreensaver_file.write(content)
                 xscreensaver_file.close()
 
                 change_owner = 'chown ' + username + ':' + username + ' ' + xfile_path
                 self.execute(change_owner)
-                self.logger.info('[Screensaver] .xscreensaver owner is changed.')
+                self.logger.info('.xscreensaver owner is changed.')
 
-                self.logger.info('[Screensaver] Screensaver profile is handled successfully.')
+                self.logger.info('Screensaver profile is handled successfully.')
                 self.context.create_response(code=self.message_code.POLICY_PROCESSED.value,
                                              message='Kullanıcı screensaver profili başarıyla çalıştırıldı.')
 
             else:
                 self.context.create_response(code=self.message_code.POLICY_ERROR.value,
-                                         message='Screensaver profili sadece kullanıcı tabanlıdır.')
+                                             message='Screensaver profili sadece kullanıcı tabanlıdır.')
 
         except Exception as e:
-            self.logger.error('[Screensaver] A problem occured while handling screensaver profile: {0}'.format(str(e)))
-            self.context.create_response(code=self.message_code.POLICY_ERROR.value, message='Screensaver profili çalıştırılırken bir hata oluştu.')
+            self.logger.error('A problem occured while handling screensaver profile: {0}'.format(str(e)))
+            self.context.create_response(code=self.message_code.POLICY_ERROR.value,
+                                         message='Screensaver profili çalıştırılırken bir hata oluştu.')
 
 
 def handle_policy(profile_data, context):
-    print('SCREENSAVER')
     screensaver = Screensaver(profile_data, context)
     screensaver.handle_policy()
