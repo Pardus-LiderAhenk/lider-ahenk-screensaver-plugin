@@ -21,6 +21,8 @@ class Screensaver(AbstractPlugin):
         self.context.put('data', None)
         self.context.put('content_type', None)
 
+        self.logger.debug('Parameters were initialized.')
+
     def handle_policy(self):
         username = self.context.get('username')
 
@@ -62,15 +64,18 @@ class Screensaver(AbstractPlugin):
                 xscreensaver_file.write(content)
                 xscreensaver_file.close()
 
+                self.logger.debug('Config file content: {}'.format(content))
+
                 change_owner = 'chown ' + username + ':' + username + ' ' + xfile_path
                 self.execute(change_owner)
-                self.logger.info('.xscreensaver owner is changed.')
+                self.logger.debug('.xscreensaver owner is changed.')
 
                 self.logger.info('Screensaver profile is handled successfully.')
                 self.context.create_response(code=self.message_code.POLICY_PROCESSED.value,
                                              message='Kullanıcı screensaver profili başarıyla çalıştırıldı.')
 
             else:
+                self.logger.error('Screensaver profile is user-oriented, not machine-oriented.')
                 self.context.create_response(code=self.message_code.POLICY_ERROR.value,
                                              message='Screensaver profili sadece kullanıcı tabanlıdır.')
 
