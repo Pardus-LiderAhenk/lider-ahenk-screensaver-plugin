@@ -5,7 +5,7 @@
 def info():
     inf = dict()
     inf['name'] = 'screensaver'
-    inf['version'] = '1.0.0'
+    inf['version'] = '1.0.0-alfa'
     inf['support'] = 'debian'
     inf['description'] = 'Screensaver plugin provides to changing Xscreensaver config file that belongs to user.'
     inf['task'] = False
