@@ -4,7 +4,7 @@ public class ScreensaverConstants {
 	
 	public static final String PLUGIN_NAME = "screensaver";
 	
-	public static final String PLUGIN_VERSION = "1.0.0";
+	public static final String PLUGIN_VERSION = "1.0.0-beta";
 	
 	public static final int MAX_VALUE = 9999;
 	public static final int MIN_VALUE = 0;
